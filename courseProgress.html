@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> CS2003 Course Progress </title>
+  <style> /* CSS Stylesheet */
+  #graph { border: solid black 1px; } /* simple border */
+  th, td { vertical-align: top; } /*Dont center table cells*/
+  </style>
+</head>
+<body>
+  <!-- HTML table with input elements -->
+  <table>
+    <tr><th> CS 2003: </th>
+      <td></td> <!-- No data in cell -->
+      <th> Course Progress </th></tr>
+    <tr><td> Assignment 1 : </td>
+      <td><input id="a1" onchange="calculate();"></td>
+      <td rowspan=6>
+        <canvas id="graph" width="1000" height="150"></canvas></td></tr>
+    <tr><td> Assignment 2 : </td>
+      <td><input id="a2" onchange="calculate();"></td></tr>
+    <tr><td> Assignment 3 : </td>
+      <td><input id="a3" onchange="calculate();"></td></tr>
+    <tr><td> Assignment 4 : </td>
+      <td><input id="a4" onchange="calculate();"></td></tr>
+    <tr><td> Assignment 5 : </td>
+      <td><input id="a5" onchange="calculate();"></td></tr>
+    <tr><td> Assignment 6 : </td>
+      <td><input id="a6" onchange="calculate();"></td></tr>
+  </table>
+
+  <!-- Javascript code -->
+  <script>
+  "use strict";
+
+  /*
+  * This script defines calculate() function called by event handlers in the
+  * HTML above. The function reads values from <input> elements and then display
+  * the results on a graph, which looks like a bar chart
+  */
+  function calculate() {
+    //Look up the input elements in the document
+    var a1 = parseFloat(document.getElementById("a1").value);
+    var a2 = parseFloat(document.getElementById("a2").value);
+    var a3 = parseFloat(document.getElementById("a3").value);
+    var a4 = parseFloat(document.getElementById("a4").value);
+    var a5 = parseFloat(document.getElementById("a5").value);
+    var a6 = parseFloat(document.getElementById("a6").value);
+
+    var assign_grades = [a1,a2,a3,a4,a5,a6], assign_total = 0, assign_avg = 0, assign_track = 0;
+    for (var i = 0; i < assign_grades.length; i++) {
+      if (assign_grades[i] > -1) {
+        assign_track += 1;
+        //window.alert(assign_track);
+        //window.alert(assign_grades[i]);
+        assign_total += assign_grades[i];
+        //window.alert(assign_total);
+        assign_avg = assign_total / assign_track;
+        //window.alert(assign_avg);
+      }
+      // else do nothing
+    }
+    //window.alert(assign_avg);
+    var allgrades = [a1,a2,a3,a4,a5,a6, assign_avg]
+    chart(allgrades);
+  }
+
+  function chart(grades) {
+
+    var graph = document.getElementById("graph"); // Get the <canvas> tag
+    graph.width = graph.width; //Clear and reset the canvas element
+
+    var g = graph.getContext("2d");
+    var width = graph.width, height = graph.height; // Canvas size
+
+    var upperX=5, upperY=110, barWidth=10, grades_length = grades.length;
+
+    for (var i = 0; i < grades_length; i++) {
+      g.fillStyle = "#f00";
+      g.fillRect(upperX,upperY,barWidth,grades[i] * -1);
+
+      g.fillStyle = '#000000'
+      g.fillText('A'+i, upperX, upperY+10);
+      upperX = upperX + 15;
+    }
+  }
+
+
+
+
+
+   </script>
+ </body>
+ </html>
